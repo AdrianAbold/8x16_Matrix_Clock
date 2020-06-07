@@ -1,0 +1,492 @@
+import time
+from time import time
+from datetime import datetime
+
+from luma.led_matrix.device import max7219
+from luma.core.interface.serial import spi, noop
+from luma.core.render import canvas
+from luma.core.legacy import text, show_message
+from luma.core.legacy.font import proportional, CP437_FONT, TINY_FONT
+
+####  CASES  ###########################################################################################  
+def cases(device, case):
+    if case == 0: #[H] UHR
+        with canvas(device) as draw:
+            draw.point((0, 0), fill='white')
+            draw.point((1, 0), fill='white')
+            draw.point((3, 0), fill='white')
+            draw.point((4, 0), fill='white')
+            draw.point((5, 0), fill='white')
+            draw.point((13, 7), fill='white')
+            draw.point((14, 7), fill='white')
+            draw.point((15, 7), fill='white')
+                    
+    if case == 1: #Fünf nach [H]
+        with canvas(device) as draw:
+            draw.point((0, 0), fill='white')
+            draw.point((1, 0), fill='white')
+            draw.point((3, 0), fill='white')
+            draw.point((4, 0), fill='white')
+            draw.point((5, 0), fill='white')
+            draw.point((8, 1), fill='white')
+            draw.point((9, 1), fill='white')
+            draw.point((10, 1), fill='white')
+            draw.point((11, 1), fill='white')
+            draw.point((0, 3), fill='white')
+            draw.point((1, 3), fill='white')
+            draw.point((2, 3), fill='white')
+            draw.point((3, 3), fill='white')
+                    
+    if case == 2: #Zehn nach [H]
+        with canvas(device) as draw:
+            draw.point((0, 0), fill='white')
+            draw.point((1, 0), fill='white')
+            draw.point((3, 0), fill='white')
+            draw.point((4, 0), fill='white')
+            draw.point((5, 0), fill='white')
+            draw.point((12, 1), fill='white')
+            draw.point((13, 1), fill='white')
+            draw.point((14, 1), fill='white')
+            draw.point((15, 1), fill='white')
+            draw.point((0, 3), fill='white')
+            draw.point((1, 3), fill='white')
+            draw.point((2, 3), fill='white')
+            draw.point((3, 3), fill='white')
+                    
+    if case == 3: #Viertel [H+1]
+        with canvas(device) as draw:
+            draw.point((0, 0), fill='white')
+            draw.point((1, 0), fill='white')
+            draw.point((3, 0), fill='white')
+            draw.point((4, 0), fill='white')
+            draw.point((5, 0), fill='white')
+            draw.point((9, 2), fill='white')
+            draw.point((10, 2), fill='white')
+            draw.point((11, 2), fill='white')
+            draw.point((12, 2), fill='white')
+            draw.point((13, 2), fill='white')
+            draw.point((14, 2), fill='white')
+            draw.point((15, 2), fill='white')
+                    
+    if case == 4: #Zwanzig nach [H]
+        with canvas(device) as draw:
+            draw.point((0, 0), fill='white')
+            draw.point((1, 0), fill='white')
+            draw.point((3, 0), fill='white')
+            draw.point((4, 0), fill='white')
+            draw.point((5, 0), fill='white')
+            draw.point((1, 1), fill='white')
+            draw.point((2, 1), fill='white')
+            draw.point((3, 1), fill='white')
+            draw.point((4, 1), fill='white')
+            draw.point((5, 1), fill='white')
+            draw.point((6, 1), fill='white')
+            draw.point((7, 1), fill='white')
+            draw.point((0, 3), fill='white')
+            draw.point((1, 3), fill='white')
+            draw.point((2, 3), fill='white')
+            draw.point((3, 3), fill='white')
+                    
+    if case == 5: #Fünf vor Halb [H+1]
+        with canvas(device) as draw:
+            draw.point((0, 0), fill='white')
+            draw.point((1, 0), fill='white')
+            draw.point((3, 0), fill='white')
+            draw.point((4, 0), fill='white')
+            draw.point((5, 0), fill='white')
+            draw.point((8, 1), fill='white')
+            draw.point((9, 1), fill='white')
+            draw.point((10, 1), fill='white')
+            draw.point((11, 1), fill='white')
+            draw.point((4, 3), fill='white')
+            draw.point((5, 3), fill='white')
+            draw.point((6, 3), fill='white')
+            draw.point((12, 3), fill='white')
+            draw.point((13, 3), fill='white')
+            draw.point((14, 3), fill='white')
+            draw.point((15, 3), fill='white')
+                    
+    if case == 6: #Halb [H+1]
+        with canvas(device) as draw:
+            draw.point((0, 0), fill='white')
+            draw.point((1, 0), fill='white')
+            draw.point((3, 0), fill='white')
+            draw.point((4, 0), fill='white')
+            draw.point((5, 0), fill='white')
+            draw.point((12, 3), fill='white')
+            draw.point((13, 3), fill='white')
+            draw.point((14, 3), fill='white')
+            draw.point((15, 3), fill='white')
+                    
+    if case == 7: #Fünf nach Halb [H+1]
+        with canvas(device) as draw:
+            draw.point((0, 0), fill='white')
+            draw.point((1, 0), fill='white')
+            draw.point((3, 0), fill='white')
+            draw.point((4, 0), fill='white')
+            draw.point((5, 0), fill='white')
+            draw.point((8, 1), fill='white')
+            draw.point((9, 1), fill='white')
+            draw.point((10, 1), fill='white')
+            draw.point((11, 1), fill='white')
+            draw.point((0, 3), fill='white')
+            draw.point((1, 3), fill='white')
+            draw.point((2, 3), fill='white')
+            draw.point((3, 3), fill='white')
+            draw.point((12, 3), fill='white')
+            draw.point((13, 3), fill='white')
+            draw.point((14, 3), fill='white')
+            draw.point((15, 3), fill='white')
+                    
+    if case == 8: #Zwanzig vor [H+1]
+        with canvas(device) as draw:
+            draw.point((0, 0), fill='white')
+            draw.point((1, 0), fill='white')
+            draw.point((3, 0), fill='white')
+            draw.point((4, 0), fill='white')
+            draw.point((5, 0), fill='white')
+            draw.point((1, 1), fill='white')
+            draw.point((2, 1), fill='white')
+            draw.point((3, 1), fill='white')
+            draw.point((4, 1), fill='white')
+            draw.point((5, 1), fill='white')
+            draw.point((6, 1), fill='white')
+            draw.point((7, 1), fill='white')
+            draw.point((4, 3), fill='white')
+            draw.point((5, 3), fill='white')
+            draw.point((6, 3), fill='white')
+                    
+    if case == 9: #Dreiviertel [H+1]
+        with canvas(device) as draw:
+            draw.point((0, 0), fill='white')
+            draw.point((1, 0), fill='white')
+            draw.point((3, 0), fill='white')
+            draw.point((4, 0), fill='white')
+            draw.point((5, 0), fill='white')
+            draw.point((5, 2), fill='white')
+            draw.point((6, 2), fill='white')
+            draw.point((7, 2), fill='white')
+            draw.point((8, 2), fill='white')
+            draw.point((9, 2), fill='white')
+            draw.point((10, 2), fill='white')
+            draw.point((11, 2), fill='white')
+            draw.point((12, 2), fill='white')
+            draw.point((13, 2), fill='white')
+            draw.point((14, 2), fill='white')
+            draw.point((15, 2), fill='white')
+                    
+    if case == 10: #Zehn vor [H+1]
+        with canvas(device) as draw:
+            draw.point((0, 0), fill='white')
+            draw.point((1, 0), fill='white')
+            draw.point((3, 0), fill='white')
+            draw.point((4, 0), fill='white')
+            draw.point((5, 0), fill='white')
+            draw.point((12, 1), fill='white')
+            draw.point((13, 1), fill='white')
+            draw.point((14, 1), fill='white')
+            draw.point((15, 1), fill='white')
+            draw.point((4, 3), fill='white')
+            draw.point((5, 3), fill='white')
+            draw.point((6, 3), fill='white')
+                    
+    if case == 11: #Fünf vor [H+1]
+        with canvas(device) as draw:
+            draw.point((0, 0), fill='white')
+            draw.point((1, 0), fill='white')
+            draw.point((3, 0), fill='white')
+            draw.point((4, 0), fill='white')
+            draw.point((5, 0), fill='white')
+            draw.point((8, 1), fill='white')
+            draw.point((9, 1), fill='white')
+            draw.point((10, 1), fill='white')
+            draw.point((11, 1), fill='white')
+            draw.point((4, 3), fill='white')
+            draw.point((5, 3), fill='white')
+            draw.point((6, 3), fill='white')
+    
+###  HOURS  ##########################################################################################
+def hours(device, test):
+    hour = test
+    if hour == 0: #Zwölf
+        with canvas(device) as draw:
+            draw.point((10, 5), fill='white')
+            draw.point((11, 5), fill='white')
+            draw.point((12, 5), fill='white')
+            draw.point((13, 5), fill='white')
+            draw.point((14, 5), fill='white')
+                    
+    if hour == 1: #Eins
+        with canvas(device) as draw:
+            draw.point((8, 4), fill='white')
+            draw.point((9, 4), fill='white')
+            draw.point((10, 4), fill='white')
+            draw.point((11, 4), fill='white')
+                    
+    if hour == 2: #Zwei
+        with canvas(device) as draw:
+            draw.point((12, 4), fill='white')
+            draw.point((13, 4), fill='white')
+            draw.point((14, 4), fill='white')
+            draw.point((15, 4), fill='white')
+                    
+    if hour == 3: #Drei
+        with canvas(device) as draw:
+            draw.point((2, 5), fill='white')
+            draw.point((3, 5), fill='white')
+            draw.point((4, 5), fill='white')
+            draw.point((5, 5), fill='white')
+                    
+    if hour == 4: #Vier
+        with canvas(device) as draw:
+            draw.point((6, 5), fill='white')
+            draw.point((7, 5), fill='white')
+            draw.point((8, 5), fill='white')
+            draw.point((9, 5), fill='white')
+                    
+    if hour == 5: #Fünf
+        with canvas(device) as draw:
+            draw.point((3, 4), fill='white')
+            draw.point((4, 4), fill='white')
+            draw.point((5, 4), fill='white')
+            draw.point((6, 4), fill='white')
+                    
+    if hour == 6: #Sechs
+        with canvas(device) as draw:
+            draw.point((1, 6), fill='white')
+            draw.point((2, 6), fill='white')
+            draw.point((3, 6), fill='white')
+            draw.point((4, 6), fill='white')
+            draw.point((5, 6), fill='white')
+                    
+    if hour == 7: #Sieben
+        with canvas(device) as draw:
+            draw.point((5, 6), fill='white')
+            draw.point((6, 6), fill='white')
+            draw.point((7, 6), fill='white')
+            draw.point((8, 6), fill='white')
+            draw.point((9, 6), fill='white')
+            draw.point((10, 6), fill='white')
+                    
+    if hour == 8: #Acht
+        with canvas(device) as draw:
+            draw.point((11, 6), fill='white')
+            draw.point((12, 6), fill='white')
+            draw.point((13, 6), fill='white')
+            draw.point((14, 6), fill='white')
+                    
+    if hour == 9: #Neun
+        with canvas(device) as draw:
+            draw.point((5, 7), fill='white')
+            draw.point((6, 7), fill='white')
+            draw.point((7, 7), fill='white')
+            draw.point((8, 7), fill='white')
+                    
+    if hour == 10: #Zehn
+        with canvas(device) as draw:
+            draw.point((2, 7), fill='white')
+            draw.point((3, 7), fill='white')
+            draw.point((4, 7), fill='white')
+            draw.point((5, 7), fill='white')
+                    
+    if hour == 11: #Elf
+        with canvas(device) as draw:
+            draw.point((1, 4), fill='white')
+            draw.point((2, 4), fill='white')
+            draw.point((3, 4), fill='white')
+            
+    if hour == 12: #Zwölf
+        with canvas(device) as draw:
+            draw.point((10, 5), fill='white')
+            draw.point((11, 5), fill='white')
+            draw.point((12, 5), fill='white')
+            draw.point((13, 5), fill='white')
+            draw.point((14, 5), fill='white')
+                    
+###  RUN CASE  #########################################################################################
+def run_case(device, c, h):
+    print("Case:")
+    print(c)
+    print(h)
+    end = time() + 60
+    while time() < end:
+        cases(device, c)
+        hours(device, h)
+        
+###  RUN DOTS  ############################################################################################
+def run_dots (device):
+    m = 4
+    print('Min:')
+    for l in range(m):
+        print(l+1)
+        end = time() + 60
+        while time() < end:
+            if l == 0:
+                with canvas(device) as draw:
+                    draw.point((15, 0), fill='white')
+            
+            if l == 1:
+                with canvas(device) as draw:
+                    draw.point((15, 0), fill='white')
+                    draw.point((14, 0), fill='white')
+                            
+            if l == 2:
+                with canvas(device) as draw:
+                    draw.point((15, 0), fill='white')
+                    draw.point((14, 0), fill='white')
+                    draw.point((13, 0), fill='white')
+                            
+            if l == 3:
+                with canvas(device) as draw:
+                    draw.point((15, 0), fill='white')
+                    draw.point((14, 0), fill='white')
+                    draw.point((13, 0), fill='white')
+                    draw.point((12, 0), fill='white')
+        
+###  MAIN  ######################################################################################### 
+def main():
+    #Matrix Setup
+    serial = spi(port=0, device=0, gpio=noop())
+    device = max7219(serial, cascaded=2, block_orientation=0, blocks_arranged_in_reverse_order=True)
+    device.contrast(16)
+    
+    setter = 0 #Set clock at start
+    zyclus = False #Infinit loop
+    clk = 24 #Cases
+    hr = 12 #Hours
+    
+    ## Clock Start ##
+    while zyclus == False:
+        clock_start = datetime.now().minute
+        if clock_start % 5 == 0:
+            print("##################")
+            print("##  START CLOCK ##")
+            print("##################")
+            zyclus = True
+        else:
+            print("start")
+            with canvas(device) as draw:
+                draw.point((6, 3), fill='white')
+                draw.point((7, 3), fill='white')
+                draw.point((8, 3), fill='white')
+                draw.point((9, 3), fill='white')
+                draw.point((10, 3), fill='white')
+    
+    ## Clock ##
+    while zyclus == True:
+        ##### Set Hourcycle ########## 
+        hr_now = datetime.now().hour
+        if hr_now < 12:
+            print("AM")
+            h_a = hr_now
+            """ # -> FEHLT: Ausgabe Display
+            with canvas(device) as draw:
+            draw.point((10, 0), fill='white')
+            """
+        elif hr_now == 12:
+            h_a = 0
+            print("AM")
+            """ # -> FEHLT: Ausgabe Display
+            with canvas(device) as draw:
+            draw.point((10, 0), fill='white')
+            """
+        elif hr_now >12:
+            print("PM")
+            h_a = hr_now - 12
+            """ # -> FEHLT: Ausgabe Display
+            with canvas(device) as draw:
+            draw.point((9, 0), fill='white')
+            """
+        elif hr_now == 24:
+            h_a = 0
+            print("PM")
+            """ # -> FEHLT: Ausgabe Display
+            with canvas(device) as draw:
+            draw.point((9, 0), fill='white')
+            """
+        ##### Set Clockcycle ##########    
+        if datetime.now().minute == 0:
+            clk = 24
+        elif datetime.now().minute == 5: 
+            clk = 22
+        elif datetime.now().minute == 10: 
+            clk = 20
+        elif datetime.now().minute == 15: 
+            clk = 18
+        elif datetime.now().minute == 20: 
+            clk = 16
+        elif datetime.now().minute == 25:
+            clk = 14
+        elif datetime.now().minute == 30: 
+            clk = 12
+        elif datetime.now().minute == 35: 
+            clk = 10
+        elif datetime.now().minute == 40:
+            clk = 8
+        elif datetime.now().minute == 45:
+            clk = 6
+        elif datetime.now().minute == 50:
+            clk = 4
+        elif datetime.now().minute == 55:
+            clk = 2
+            
+        ####  MAIN RUN  ####
+        for h in range (hr):
+            if setter == 0:
+                setter = setter + 1
+                h = h_a 
+            for n in range(clk):
+                print("____________")
+                print("Mainloop:")
+                print(n)
+                print("out of")
+                print(clk)
+                
+                min = datetime.now().minute
+                if min == 0:
+                    run_case(device, 0, h)
+                    
+                elif min == 5:
+                    run_case(device, 1, h)
+                                
+                elif min == 10:
+                    run_case(device, 2, h)
+                    
+                elif min == 15:
+                    run_case(device, 3, h+1)
+                    
+                elif min == 20:
+                    run_case(device, 4, h)
+                    
+                elif min == 25:
+                    run_case(device, 5, h+1)
+                                
+                elif min == 30:
+                    run_case(device, 6, h+1)
+                    
+                elif min == 35:
+                    run_case(device, 7, h+1)
+                    
+                elif min == 40:
+                    run_case(device, 8, h+1)
+                    
+                elif min == 45:
+                    run_case(device, 9, h+1)
+                                
+                elif min == 50:
+                    run_case(device, 10, h+1)
+                    
+                elif min == 55:
+                    run_case(device, 11, h+1)
+                    
+                else:
+                    run_dots(device)
+            clk = 24
+            print("RESET_Clock")
+        hr = 12
+        print("##########")
+        print("MIDNIGHT / MIDDAY")
+        print("##########")
+      
+if __name__ == "__main__":
+    main()
